@@ -1,0 +1,44 @@
+# dependencies execise
+/*/exercise/node_modules
+/*/exercise/.pnp
+/*/exercise/.pnp.js
+/*/exercise/.yarn/install-state.gz
+
+# testing
+/*/exercise/coverage
+
+# production
+/*/exercise/build
+
+# misc
+/*/exercise/.DS_Store
+/*/exercise/*.pem
+
+
+# local env files
+/*/exercise/.env
+/*/exercise/.env*.local
+
+# Logs
+/*/exercise/logs
+/*/exercise/*.log
+/*/exercise/npm-debug.log*
+/*/exercise/yarn-debug.log*
+/*/exercise/yarn-error.log*
+/*/exercise/pnpm-debug.log*
+/*/exercise/lerna-debug.log*
+
+/*/exercise/dist
+/*/exercise/dist-ssr
+/*/exercise/*.local
+
+# Editor directories and files
+/*/exercise/.vscode/*
+/*/exercise/!.vscode/extensions.json
+/*/exercise/.idea
+/*/exercise/.DS_Store
+/*/exercise/*.suo
+/*/exercise/*.ntvs*
+/*/exercise/*.njsproj
+/*/exercise/*.sln
+/*/exercise/*.sw?
