@@ -1,5 +1,71 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import imageSource from '../static/textures/door/color.jpg'
+import imageSource2 from '../static/textures/checkerboard-1024x1024.png'
+import imageSource3 from '../static/textures/checkerboard-8x8.png'
+import minecraft from '../static/textures/minecraft.png'
+
+console.log(imageSource)
+
+/**
+ * Textures
+ */
+// 1 - Load image
+// const image = new Image()
+// const texture = new THREE.Texture(image)
+// texture.colorSpace = THREE.SRGBColorSpace
+
+// image.onload = () => {
+//     texture.needsUpdate = true
+// }
+
+// image.src = '/textures/door/color.jpg'
+
+
+// 2 - Load texture
+const loadingManager = new THREE.LoadingManager()
+
+// loadingManager.onStart = () => {
+//     console.log('loading started') 
+// }
+// loadingManager.onLoad = () => {
+//     console.log('loading loaded')
+// }
+
+// loadingManager.onProgress = () => {
+//     console.log('loading progress')
+// }
+
+// loadingManager.onError = () => {
+//     console.log('loading error')
+// }   
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load(minecraft)
+colorTexture.colorSpace = THREE.SRGBColorSpace
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('/textures/door/height.jpg')
+const normalTexture = textureLoader.load('/textures/door/normal.jpg')
+const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
+
+// colorTexture.repeat.x = 2
+// colorTexture.repeat.y = 3
+// colorTexture.repeat.set(2, 3)
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping
+// colorTexture.wrapT = THREE.MirroredRepeatWrapping
+//                        x,  y
+// colorTexture.offset.set(0.5, 0.5)
+// colorTexture.rotation = Math.PI / 4
+// colorTexture.center.x = 0.5
+// colorTexture.center.y = 0.5
+
+colorTexture.generateMipmaps = false;
+colorTexture.minFilter = THREE.NearestFilter
+colorTexture.magFilter = THREE.NearestFilter
+
+
+
 
 /**
  * Base
@@ -14,7 +80,10 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+console.log(geometry.attributes.uv)
+// const geometry = new THREE.SphereGeometry(1, 32, 32)
+// const geometry = new THREE.ConeGeometry(1,1,32)
+const material = new THREE.MeshBasicMaterial({ map: colorTexture })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
