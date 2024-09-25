@@ -1,6 +1,29 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import GUI from 'lil-gui'
+
+
+/**
+ * Debug
+ */
+
+const gui = new GUI({
+    width: 500,
+    height: 300,
+    title: 'Debug UI',
+    closeFolders: false
+})
+
+gui.hide()
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'd') {
+        gui.show(gui._hidden)
+    } 
+})
+
+const debugObject = {}
 
 /**
  * Base
@@ -14,10 +37,67 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
+debugObject.color = '#0cd33e'
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
-const material = new THREE.MeshBasicMaterial({ color: '#ff0000' })
+const material = new THREE.MeshBasicMaterial({ color: debugObject.color })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+const cubeTweaks = gui.addFolder('Awesome Cube');
+// close / open
+cubeTweaks.close();
+
+// gui.add(mesh.position, 'y', -3, 3, 0.01)
+
+// range properties
+cubeTweaks.add(mesh.position, 'y').min(-3).max(3).step(0.01).name('elevation')
+
+// boolean properties
+cubeTweaks.add(mesh, 'visible')
+cubeTweaks.add(material, 'wireframe')
+
+
+// color properties
+cubeTweaks.addColor(debugObject, 'color')
+.onChange((value) => {
+    
+    material.color.set(debugObject.color)
+    
+    // console.log('color changed')
+    // console.log(material.color.getHexString())
+    // console.log(value);
+})
+
+// function properties
+debugObject.spin = () => {
+    gsap.to(mesh.rotation, {
+        duration: 1,
+        y: mesh.rotation.y + Math.PI * 2
+    })
+}
+cubeTweaks.add(debugObject, 'spin')
+
+debugObject.subversion = 2
+cubeTweaks.add(debugObject, 'subversion').min(1).max(10).step(1)
+.onFinishChange(() => {
+    // console.log('subversion changed')
+    mesh.geometry.dispose()
+    mesh.geometry =  new THREE.BoxGeometry(
+        1, 1, 1,
+        debugObject.subversion, debugObject.subversion, debugObject.subversion
+    )
+})
+
+
+
+// let myVariable = 1337
+// gui.add(myVariable, '???')
+
+// const myObject = {
+//     myVariable: 1337
+// }
+
+// gui.add(myObject, 'myVariable')
 
 /**
  * Sizes
